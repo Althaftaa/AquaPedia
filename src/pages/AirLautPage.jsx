@@ -1,7 +1,7 @@
 // src/pages/AirLautPage.jsx
 import { useState, useEffect } from "react";
 import { Search, Anchor } from "lucide-react";
-import RecipeGrid from "../components/makanan/RecipeGrid";
+import RecipeGrid from "../components/fish/FishGrid";
 import Pagination from "../components/common/Pagination";
 
 // Hapus import DataIkanLaut

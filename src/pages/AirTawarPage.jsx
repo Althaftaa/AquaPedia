@@ -1,7 +1,7 @@
 // src/pages/AirTawarPage.jsx
 import { useState, useEffect } from "react";
 import { Search, Fish } from "lucide-react";
-import RecipeGrid from "../components/makanan/RecipeGrid";
+import RecipeGrid from "../components/fish/FishGrid";
 import Pagination from "../components/common/Pagination";
 
 // Hapus import DataIkanTawar (Kita sudah pakai API!)
