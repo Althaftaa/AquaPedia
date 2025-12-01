@@ -18,30 +18,29 @@ export default defineConfig({
         "LOGORN.png",
       ],
 
-      // Konfigurasi agar bisa diinstall
       manifest: {
         name: "AquaPedia: Ensiklopedia Ikan Indonesia",
         short_name: "AquaPedia",
         description: "Ensiklopedia Ikan Air Tawar dan Laut Indonesia",
         theme_color: "#ffffff",
         background_color: "#ffffff",
-        display: "standalone", // INI PENTING: Agar tampil full screen seperti aplikasi
+        display: "standalone",
         orientation: "portrait",
         scope: "/",
         start_url: "/",
         icons: [
           {
-            src: "pwa-192x192.png", // Pastikan icon ini ada (nanti kita generate)
+            src: "logo.png",
             sizes: "192x192",
             type: "image/png",
           },
           {
-            src: "pwa-512x512.png", // Pastikan icon ini ada
+            src: "logo.png",
             sizes: "512x512",
             type: "image/png",
           },
           {
-            src: "pwa-512x512.png",
+            src: "logo.png",
             sizes: "512x512",
             type: "image/png",
             purpose: "any maskable",
@@ -50,13 +49,15 @@ export default defineConfig({
       },
 
       workbox: {
-        globPatterns: ["**/*.{js,css,html,svg,png,ico,jpg,jpeg}"], // Tambahkan jpg/jpeg agar gambar ikan ter-cache
+        globPatterns: ["**/*.{js,css,html,svg,png,ico,jpg,jpeg}"],
         cleanupOutdatedCaches: true,
         clientsClaim: true,
+        // TAMBAHKAN BARIS INI: Izinkan file hingga 5 MB
+        maximumFileSizeToCacheInBytes: 5000000,
       },
 
       devOptions: {
-        enabled: true, // Ubah ke true agar bisa dites di localhost
+        enabled: true,
         navigateFallback: "index.html",
         suppressWarnings: true,
         type: "module",
