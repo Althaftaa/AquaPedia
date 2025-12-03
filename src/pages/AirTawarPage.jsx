@@ -1,10 +1,8 @@
 // src/pages/AirTawarPage.jsx
 import { useState, useEffect } from "react";
-import { Search, Fish } from "lucide-react";
+import { Search, Fish, Droplets } from "lucide-react";
 import RecipeGrid from "../components/fish/FishGrid";
 import Pagination from "../components/common/Pagination";
-
-// Hapus import DataIkanTawar (Kita sudah pakai API!)
 
 export default function AirTawarPage({ onSelectRecipe }) {
   const [recipes, setRecipes] = useState([]);
@@ -18,17 +16,14 @@ export default function AirTawarPage({ onSelectRecipe }) {
     const fetchIkan = async () => {
       try {
         setLoading(true);
-        const apiUrl = import.meta.env.VITE_API_URL;
+        const apiUrl = import.meta.env.VITE_API_URL; // Menggunakan Environment Variable
         const response = await fetch(`${apiUrl}/api/fish/type/Air%20Tawar`);
         const data = await response.json();
 
         const formattedData = data.map((item) => {
-          // LOGIKA BARU: Cek apakah ini link internet atau file lokal
           const isExternalLink = item.image_url.startsWith("http");
-
           return {
             ...item,
-            // Jika link luar, pakai langsung. Jika lokal, tambahkan /images/
             image_url: isExternalLink
               ? item.image_url
               : `/images/${item.image_url}`,
@@ -46,7 +41,6 @@ export default function AirTawarPage({ onSelectRecipe }) {
 
     fetchIkan();
   }, []);
-  // ---------------------------
 
   // Filter Search
   const filteredRecipes = recipes.filter((item) =>
@@ -60,43 +54,65 @@ export default function AirTawarPage({ onSelectRecipe }) {
   const totalPages = Math.ceil(filteredRecipes.length / itemsPerPage);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-cyan-50 via-white to-blue-50 pb-20 md:pb-8">
-      <main className="max-w-7xl mx-auto px-4 md:px-8 py-8 md:py-12">
-        {/* Search Bar */}
-        <div className="mb-8 md:mb-12">
-          <div className="relative max-w-lg mx-auto">
-            <input
-              type="text"
-              value={searchQuery}
-              onChange={(e) => {
-                setSearchQuery(e.target.value);
-                setCurrentPage(1); // Reset ke halaman 1 saat search
-              }}
-              placeholder="Cari ikan air tawar..."
-              className="w-full pl-12 pr-4 py-3 border border-gray-200 rounded-full shadow-sm focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500 transition-colors"
-            />
-            <Search
-              className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"
-              size={20}
-            />
-          </div>
-        </div>
+    <div className="min-h-screen bg-slate-50 pb-20 md:pb-8 relative overflow-hidden">
+      {/* Hiasan Background Blur */}
+      <div className="absolute top-0 left-1/4 w-96 h-96 bg-cyan-200/20 rounded-full blur-3xl -translate-y-1/2 pointer-events-none" />
+      <div className="absolute top-40 right-0 w-64 h-64 bg-blue-200/20 rounded-full blur-3xl translate-x-1/2 pointer-events-none" />
 
-        {/* Header */}
-        <div className="text-center mb-8">
-          <h1 className="text-3xl md:text-5xl font-bold text-slate-800 flex items-center justify-center gap-3">
-            <Fish className="inline-block h-8 w-8 md:h-10 md:w-10 text-cyan-600" />
-            Jelajahi Ikan Air Tawar
+      <main className="max-w-7xl mx-auto px-4 md:px-8 py-8 md:py-12 relative z-10">
+        {/* --- BAGIAN HEADER BARU --- */}
+        <div className="text-center mb-12 space-y-4">
+          {/* Badge Kecil */}
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-50 border border-cyan-100 text-cyan-700 text-xs font-bold uppercase tracking-wide">
+            <Droplets className="w-3 h-3" />
+            <span>Habitat Sungai & Danau</span>
+          </div>
+
+          {/* Judul Besar dengan Gradient */}
+          <h1 className="text-4xl md:text-6xl font-extrabold text-slate-900 tracking-tight">
+            Jelajahi Ikan{" "}
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-500 to-emerald-600">
+              Air Tawar
+            </span>
           </h1>
-          <p className="text-slate-500 mt-2">
-            Data diambil langsung dari API Database.
+
+          {/* Deskripsi yang Lebih Menarik */}
+          <p className="text-lg text-slate-500 max-w-2xl mx-auto leading-relaxed">
+            Temukan keanekaragaman hayati perairan darat Indonesia. Koleksi
+            lengkap penghuni sungai, danau, hingga rawa-rawa Nusantara.
           </p>
+        </div>
+        {/* -------------------------- */}
+
+        {/* Search Bar (Desain Diperhalus) */}
+        <div className="mb-10 max-w-lg mx-auto">
+          <div className="relative group">
+            <div className="absolute -inset-0.5 bg-gradient-to-r from-cyan-300 to-blue-300 rounded-full opacity-30 group-hover:opacity-50 transition duration-200 blur"></div>
+            <div className="relative bg-white rounded-full flex items-center">
+              <div className="pl-4 text-slate-400">
+                <Search size={20} />
+              </div>
+              <input
+                type="text"
+                value={searchQuery}
+                onChange={(e) => {
+                  setSearchQuery(e.target.value);
+                  setCurrentPage(1);
+                }}
+                placeholder="Cari nama ikan..."
+                className="w-full p-3 bg-transparent border-none focus:ring-0 text-slate-700 placeholder:text-slate-400 focus:outline-none"
+              />
+            </div>
+          </div>
         </div>
 
         {/* Content */}
         {loading ? (
-          <div className="text-center py-20 text-slate-500">
-            Memuat data dari API...
+          <div className="flex flex-col items-center justify-center py-20 space-y-4">
+            <div className="w-10 h-10 border-4 border-cyan-200 border-t-cyan-600 rounded-full animate-spin"></div>
+            <p className="text-slate-500 animate-pulse">
+              Sedang mengambil data dari Lautan Data...
+            </p>
           </div>
         ) : (
           <>

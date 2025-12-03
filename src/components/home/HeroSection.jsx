@@ -1,17 +1,14 @@
 // src/components/home/HeroSection.jsx
 import { Fish, Anchor, ArrowRight, Sparkles } from "lucide-react";
-// Pastikan import ini sesuai dengan file yang Anda punya
 const heroImage = "/images/hiu-paus.jpg";
 
 export default function HeroSection({ onNavigate }) {
   return (
     <section className="relative overflow-hidden bg-slate-50">
-      {/* Background Gradients */}
       <div className="absolute top-0 left-0 right-0 h-full bg-gradient-to-br from-cyan-100/40 via-white to-blue-100/40 pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="flex flex-col-reverse lg:flex-row items-center justify-between gap-12 lg:gap-20 min-h-[85vh] py-12 lg:py-0">
-          {/* --- LEFT CONTENT (Teks) --- */}
           <div className="flex-1 text-center lg:text-left space-y-8">
             <div className="inline-flex items-center space-x-2 bg-cyan-100 border border-cyan-200 rounded-full px-4 py-1.5 mx-auto lg:mx-0">
               <Sparkles className="w-4 h-4 text-cyan-600 fill-current" />
@@ -28,13 +25,23 @@ export default function HeroSection({ onNavigate }) {
               Indonesia.
             </h1>
 
-            <p className="text-lg text-slate-600 max-w-xl mx-auto lg:mx-0 leading-relaxed">
-              Temukan keindahan dan keragaman ikan air tawar serta laut
-              Nusantara. Gerbang informasi lengkap untuk mengenal fauna akuatik
-              kita lebih dekat.
-            </p>
+            <div className="max-w-xl mx-auto lg:mx-0 bg-white/60 backdrop-blur-sm border border-white/60 p-6 rounded-2xl shadow-sm hover:shadow-md transition-shadow duration-300">
+              <p className="text-lg text-slate-600 leading-relaxed">
+                Indonesia adalah rumah bagi{" "}
+                <span className="font-bold text-cyan-700 bg-cyan-50 px-1 rounded">
+                  ribuan spesies
+                </span>{" "}
+                ikan air tawar yang eksotis. Dari sungai-sungai Kalimantan
+                hingga danau di Sumatera, temukan informasi lengkap mengenai{" "}
+                <span className="font-bold text-blue-700 bg-blue-50 px-1 rounded">
+                  ragam fauna endemik
+                </span>{" "}
+                dan habitat perairan tawar Nusantara di sini.
+              </p>
+            </div>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start pt-4">
+              {/* TOMBOL 1: AIR LAUT */}
               <button
                 onClick={() => onNavigate("air_laut")}
                 className="group relative inline-flex items-center justify-center px-8 py-4 font-bold text-white transition-all duration-200 bg-slate-900 rounded-2xl hover:bg-cyan-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-900"
@@ -48,6 +55,7 @@ export default function HeroSection({ onNavigate }) {
                 </span>
               </button>
 
+              {/* TOMBOL 2: AIR TAWAR */}
               <button
                 onClick={() => onNavigate("air_tawar")}
                 className="group relative inline-flex items-center justify-center px-8 py-4 font-bold text-white transition-all duration-200 bg-slate-900 rounded-2xl hover:bg-cyan-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-900"

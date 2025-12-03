@@ -1,10 +1,8 @@
 // src/pages/AirLautPage.jsx
 import { useState, useEffect } from "react";
-import { Search, Anchor } from "lucide-react";
+import { Search, Anchor, Waves } from "lucide-react";
 import RecipeGrid from "../components/fish/FishGrid";
 import Pagination from "../components/common/Pagination";
-
-// Hapus import DataIkanLaut
 
 export default function AirLautPage({ onSelectRecipe }) {
   const [recipes, setRecipes] = useState([]);
@@ -13,7 +11,6 @@ export default function AirLautPage({ onSelectRecipe }) {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 3;
 
-  // --- AMBIL DATA DARI API ---
   useEffect(() => {
     const fetchIkan = async () => {
       try {
@@ -23,9 +20,7 @@ export default function AirLautPage({ onSelectRecipe }) {
         const data = await response.json();
 
         const formattedData = data.map((item) => {
-          // LOGIKA BARU: Cek link
           const isExternalLink = item.image_url.startsWith("http");
-
           return {
             ...item,
             image_url: isExternalLink
@@ -45,55 +40,72 @@ export default function AirLautPage({ onSelectRecipe }) {
 
     fetchIkan();
   }, []);
-  // ---------------------------
 
+  // Filter Search
   const filteredRecipes = recipes.filter((item) =>
     item.name.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
+  // Pagination Logic
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = filteredRecipes.slice(indexOfFirstItem, indexOfLastItem);
   const totalPages = Math.ceil(filteredRecipes.length / itemsPerPage);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-teal-50 via-white to-emerald-50 pb-20 md:pb-8">
-      <main className="max-w-7xl mx-auto px-4 md:px-8 py-8 md:py-12">
-        {/* Search Bar */}
-        <div className="mb-8 md:mb-12">
-          <div className="relative max-w-lg mx-auto">
-            <input
-              type="text"
-              value={searchQuery}
-              onChange={(e) => {
-                setSearchQuery(e.target.value);
-                setCurrentPage(1);
-              }}
-              placeholder="Cari ikan air laut..."
-              className="w-full pl-12 pr-4 py-3 border border-gray-200 rounded-full shadow-sm focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition-colors"
-            />
-            <Search
-              className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"
-              size={20}
-            />
+    <div className="min-h-screen bg-slate-50 pb-20 md:pb-8 relative overflow-hidden">
+      <div className="absolute top-0 right-1/4 w-96 h-96 bg-teal-200/20 rounded-full blur-3xl -translate-y-1/2 pointer-events-none" />
+      <div className="absolute top-40 left-0 w-64 h-64 bg-emerald-200/20 rounded-full blur-3xl -translate-x-1/2 pointer-events-none" />
+
+      <main className="max-w-7xl mx-auto px-4 md:px-8 py-8 md:py-12 relative z-10">
+        <div className="text-center mb-12 space-y-4">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-teal-50 border border-teal-100 text-teal-700 text-xs font-bold uppercase tracking-wide">
+            <Waves className="w-3 h-3" />
+            <span>Habitat Laut & Terumbu Karang</span>
           </div>
+
+          <h1 className="text-4xl md:text-6xl font-extrabold text-slate-900 tracking-tight">
+            Jelajahi Ikan{" "}
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-500 to-blue-600">
+              Air Laut
+            </span>
+          </h1>
+
+          <p className="text-lg text-slate-500 max-w-2xl mx-auto leading-relaxed">
+            Selami kedalaman samudra Nusantara. Temukan penghuni terumbu karang
+            yang warna-warni hingga predator puncak di lautan lepas.
+          </p>
         </div>
 
-        {/* Header */}
-        <div className="text-center mb-8">
-          <h1 className="text-3xl md:text-5xl font-bold text-slate-800 flex items-center justify-center gap-3">
-            <Anchor className="inline-block h-8 w-8 md:h-10 md:w-10 text-teal-600" />
-            Jelajahi Ikan Air Laut
-          </h1>
-          <p className="text-slate-500 mt-2">
-            Data diambil langsung dari API Database.
-          </p>
+        {/* Search Bar */}
+        <div className="mb-10 max-w-lg mx-auto">
+          <div className="relative group">
+            <div className="absolute -inset-0.5 bg-gradient-to-r from-teal-300 to-emerald-300 rounded-full opacity-30 group-hover:opacity-50 transition duration-200 blur"></div>
+            <div className="relative bg-white rounded-full flex items-center">
+              <div className="pl-4 text-slate-400">
+                <Search size={20} />
+              </div>
+              <input
+                type="text"
+                value={searchQuery}
+                onChange={(e) => {
+                  setSearchQuery(e.target.value);
+                  setCurrentPage(1);
+                }}
+                placeholder="Cari ikan laut..."
+                className="w-full p-3 bg-transparent border-none focus:ring-0 text-slate-700 placeholder:text-slate-400 focus:outline-none"
+              />
+            </div>
+          </div>
         </div>
 
         {/* Content */}
         {loading ? (
-          <div className="text-center py-20 text-slate-500">
-            Memuat data dari API...
+          <div className="flex flex-col items-center justify-center py-20 space-y-4">
+            <div className="w-10 h-10 border-4 border-teal-200 border-t-teal-600 rounded-full animate-spin"></div>
+            <p className="text-slate-500 animate-pulse">
+              Sedang menyelam mencari data...
+            </p>
           </div>
         ) : (
           <>

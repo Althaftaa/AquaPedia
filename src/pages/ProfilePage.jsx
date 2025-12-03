@@ -41,8 +41,12 @@ export default function ProfilePage() {
             {/* Avatar Circle */}
             <div className="relative flex justify-center -mt-16 mb-6">
               <div className="bg-white p-2 rounded-full shadow-lg">
-                <div className="w-32 h-32 bg-slate-100 rounded-full flex items-center justify-center text-slate-400 border-2 border-slate-50">
-                  <User size={64} strokeWidth={1.5} />
+                <div className="w-32 h-32 bg-slate-100 rounded-full border-2 border-slate-50 overflow-hidden">
+                  <img
+                    src="/images/alt.JPG"
+                    alt="Foto Profil"
+                    className="w-full h-full object-cover"
+                  />
                 </div>
               </div>
             </div>
