@@ -16,7 +16,7 @@ export default function AirTawarPage({ onSelectRecipe }) {
     const fetchIkan = async () => {
       try {
         setLoading(true);
-        const apiUrl = import.meta.env.VITE_API_URL; // Menggunakan Environment Variable
+        const apiUrl = import.meta.env.VITE_API_URL;
         const response = await fetch(`${apiUrl}/api/fish/type/Air%20Tawar`);
         const data = await response.json();
 
@@ -42,10 +42,13 @@ export default function AirTawarPage({ onSelectRecipe }) {
     fetchIkan();
   }, []);
 
-  // Filter Search
-  const filteredRecipes = recipes.filter((item) =>
-    item.name.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  const filteredRecipes = recipes.filter((item) => {
+    const query = searchQuery.toLowerCase();
+    return (
+      item.name.toLowerCase().includes(query) ||
+      item.habitat.toLowerCase().includes(query)
+    );
+  });
 
   // Pagination Logic
   const indexOfLastItem = currentPage * itemsPerPage;
@@ -55,12 +58,10 @@ export default function AirTawarPage({ onSelectRecipe }) {
 
   return (
     <div className="min-h-screen bg-slate-50 pb-20 md:pb-8 relative overflow-hidden">
-      {/* Hiasan Background Blur */}
       <div className="absolute top-0 left-1/4 w-96 h-96 bg-cyan-200/20 rounded-full blur-3xl -translate-y-1/2 pointer-events-none" />
       <div className="absolute top-40 right-0 w-64 h-64 bg-blue-200/20 rounded-full blur-3xl translate-x-1/2 pointer-events-none" />
 
       <main className="max-w-7xl mx-auto px-4 md:px-8 py-8 md:py-12 relative z-10">
-        {/* --- BAGIAN HEADER BARU --- */}
         <div className="text-center mb-12 space-y-4">
           {/* Badge Kecil */}
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-50 border border-cyan-100 text-cyan-700 text-xs font-bold uppercase tracking-wide">
@@ -68,7 +69,6 @@ export default function AirTawarPage({ onSelectRecipe }) {
             <span>Habitat Sungai & Danau</span>
           </div>
 
-          {/* Judul Besar dengan Gradient */}
           <h1 className="text-4xl md:text-6xl font-extrabold text-slate-900 tracking-tight">
             Jelajahi Ikan{" "}
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-500 to-emerald-600">
@@ -76,15 +76,13 @@ export default function AirTawarPage({ onSelectRecipe }) {
             </span>
           </h1>
 
-          {/* Deskripsi yang Lebih Menarik */}
           <p className="text-lg text-slate-500 max-w-2xl mx-auto leading-relaxed">
             Temukan keanekaragaman hayati perairan darat Indonesia. Koleksi
             lengkap penghuni sungai, danau, hingga rawa-rawa Nusantara.
           </p>
         </div>
-        {/* -------------------------- */}
 
-        {/* Search Bar (Desain Diperhalus) */}
+        {/* Search Bar */}
         <div className="mb-10 max-w-lg mx-auto">
           <div className="relative group">
             <div className="absolute -inset-0.5 bg-gradient-to-r from-cyan-300 to-blue-300 rounded-full opacity-30 group-hover:opacity-50 transition duration-200 blur"></div>

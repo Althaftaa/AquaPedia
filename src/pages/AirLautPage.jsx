@@ -41,10 +41,13 @@ export default function AirLautPage({ onSelectRecipe }) {
     fetchIkan();
   }, []);
 
-  // Filter Search
-  const filteredRecipes = recipes.filter((item) =>
-    item.name.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  const filteredRecipes = recipes.filter((item) => {
+    const query = searchQuery.toLowerCase();
+    return (
+      item.name.toLowerCase().includes(query) ||
+      item.habitat.toLowerCase().includes(query)
+    );
+  });
 
   // Pagination Logic
   const indexOfLastItem = currentPage * itemsPerPage;
